@@ -3,3 +3,9 @@
 [Oo]bj/
 **/packages/*
 !**/packages/build/
+/Slack.Webhooks-master/src/.vs/Slack.Webhooks/v16/Server/sqlite3/db.lock
+/Slack.Webhooks-master/src/.vs/Slack.Webhooks/v16/Server/sqlite3/storage.ide
+/.vs/ShoppingSamples/v16/Server/sqlite3
+/.vs/ShoppingSamples/v16
+/.vs/ContentAPI/v16
+/.vs/ContentAPI/DesignTimeBuild

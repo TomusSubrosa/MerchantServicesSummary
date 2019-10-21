@@ -22,11 +22,8 @@ namespace ShoppingSamples
     /// </summary>
     internal abstract class BaseSample
     {
-        private static readonly string endpointEnvVar = "GOOGLE_SHOPPING_SAMPLES_ENDPOINT";
-        private static readonly string defaultPath = Path.Combine(
-            Environment.GetFolderPath(Environment.SpecialFolder.Personal),
-            "shopping-samples");
-
+        private static readonly string endpointEnvVar = "GOOGLE_SHOPPING_SAMPLES_ENDPOINT";        
+        private static readonly string defaultPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal),"shopping-samples");
         internal abstract string ApiName { get; }
         internal abstract BaseConfig Config { get; }
         internal abstract string Scope { get; }
@@ -51,7 +48,7 @@ namespace ShoppingSamples
             public bool NoConfig { get; set; }
         }
 
-        internal void startSamples(string[] args)
+        internal void startSamples(string[] args, string clientConfigBinFolderName)
         {
             Console.WriteLine("{0} Command Line Sample", ApiName);
             Console.WriteLine("============================================");
@@ -61,7 +58,7 @@ namespace ShoppingSamples
 
             if (CliOptions.ConfigPath == null)
             {
-                CliOptions.ConfigPath = DefaultPath;
+                CliOptions.ConfigPath = clientConfigBinFolderName; 
             }
 
             initializeConfig(CliOptions.NoConfig);
@@ -106,54 +103,7 @@ namespace ShoppingSamples
 
             runCalls();
         }
-        internal void startTMLewinSamples(string[] args)
-        {
-            Console.WriteLine("{0} Command Line Sample", this.ApiName);
-            Console.WriteLine("============================================");
-            this.CliOptions = new Options();
-            Parser.Default.ParseArgumentsStrict(args, this.CliOptions, null);
-            if (this.CliOptions.ConfigPath == null)
-            {
-                this.CliOptions.ConfigPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "shopping-samples-tmlewin");
-            }
-            this.initializeConfig(this.CliOptions.NoConfig);
-            IConfigurableHttpClientInitializer initializer = Authenticator.authenticate(this.Config, this.Scope);
-            if (initializer == null)
-            {
-                Console.WriteLine("Failed to authenticate, so exiting.");
-            }
-            else
-            {
-                BaseClientService.Initializer init = new BaseClientService.Initializer
-                {
-                    HttpClientInitializer = initializer,
-                    ApplicationName = this.ApiName + " Samples"
-                };
-                if (Environment.GetEnvironmentVariable(endpointEnvVar) == null)
-                {
-                    this.initializeService(init);
-                }
-                else
-                {
-                    string environmentVariable = Environment.GetEnvironmentVariable(endpointEnvVar);
-                    if (!environmentVariable.EndsWith("/"))
-                    {
-                        environmentVariable = environmentVariable + "/";
-                    }
-                    try
-                    {
-                        Uri u = new Uri(environmentVariable);
-                        this.initializeService(init, u);
-                        Console.WriteLine("Using non-standard API endpoint: {0}", this.Service.BaseUri);
-                    }
-                    catch (UriFormatException exception)
-                    {
-                        throw new ArgumentException(string.Format("Error parsing base URL '{0}': {1}", environmentVariable, exception.Message));
-                    }
-                }
-                this.runCalls();
-            }
-        }
+
 
     }
 }

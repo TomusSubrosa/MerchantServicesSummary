@@ -7,13 +7,10 @@ namespace ShoppingSamples.Content
         [STAThread]
         internal static void Main(string[] args)
         {
-              var samples = new ShoppingContentSample();
-              samples.startSamples(args);
+            new ShoppingContentSample().startSamples(args , "shopping-samples");
 
-            var samples2 = new ShoppingContentSample();
-            samples2.startTMLewinSamples(args);
-            
-            
+            // run the logic for TMLewin
+            new ShoppingContentSample().startSamples(args , "shopping-samples-tmlewin");
 
         }
     }

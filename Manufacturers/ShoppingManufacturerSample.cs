@@ -87,7 +87,7 @@ namespace ShoppingSamples.Manufacturers
         internal static void Main(string[] args)
         {
             var samples = new ShoppingManufacturerSample();
-            samples.startSamples(args);
+            samples.startSamples(args,null);
         }
     }
 }
